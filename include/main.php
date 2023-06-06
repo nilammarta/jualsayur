@@ -93,13 +93,15 @@ function transaction(array $vegetables, array $sales, array $salesItems, array $
             // $closedTrxData[0] => vegetables
             // $closedTrxData[1] => $sales
             // $closedTrxData[2] => $salesItem
-
+            $vegetables = $closedTrxData[0];
+            $sales = $closedTrxData[1];
+            $salesItems = $closedTrxData[2];
 
             // $salesItems = insertSalesData(sales: $sales, orders: $orders, salesItem: $salesItems);
         } else if ($input == 6) {
             echo "Kembali ke menu penjualan\n";
             echo $spacer;
-            return $closedTrxData;
+            return $vegetables;
             break;
         } else {
             echo "Pilih menu dari no 1 sampai 6. \n";
@@ -110,7 +112,7 @@ function transaction(array $vegetables, array $sales, array $salesItems, array $
 /**
  * Membuat sub menu dari menu 2 yaitu penjualan (sales)
  */
-function salesMenu(array $vegetables, array $sales, array $salesItems, array $orders)
+function salesMenu(array $vegetables, array $sales, array $salesItems, array $orders, array $closedTrxData)
 {
     $spacer = "\n==========\n";
     while (true) {
@@ -125,7 +127,7 @@ function salesMenu(array $vegetables, array $sales, array $salesItems, array $or
             searchSales($vegetables, $sales, $salesItems);
             echo $spacer;
         } else if ($input == 2) {
-            $vegetables = transaction($vegetables, $sales, $salesItems, $orders);
+            $vegetables = transaction($vegetables, $sales, $salesItems, $orders, $closedTrxData);
             echo $spacer;
         } else if ($input == 3) {
             echo "Kembali ke menu utama.";
@@ -180,6 +182,7 @@ function main()
     global $sales;
     global $salesItems;
     global $orders;
+    global $closedTrxData;
     $spacer = "\n==========\n";
     while (true) {
         echo mainMenu();
@@ -189,7 +192,7 @@ function main()
             vegetablesMenu($vegetables, $salesItems);
             echo $spacer;
         } else if ($menu == 2) {
-            salesMenu($vegetables, $sales, $salesItems, $orders);
+            salesMenu($vegetables, $sales, $salesItems, $orders, $closedTrxData);
             echo $spacer;
         } else if ($menu == 3) {
         } else if ($menu == 4) {

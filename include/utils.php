@@ -141,7 +141,7 @@ function askPrice(): int
 /**
  * Membuat function untuk memanggil semua function di atas 
  */
-function askVegetablesData(int $id, string $vegetablesName): array
+function askVegetablesData(int $id, string $vegetableName): array
 {
     while (true) {
 
@@ -151,7 +151,7 @@ function askVegetablesData(int $id, string $vegetablesName): array
 
         return array(
             "id" => $id,
-            "name" => $vegetablesName,
+            "name" => $vegetableName,
             "category" => $category,
             "stock" => $stock,
             "price" => $prices,
@@ -230,7 +230,7 @@ function getVegetableById(int $id, array $vegetablesData): array
             return $vegetablesData[$i];
         }
     }
-    return null;
+    // return null;
 }
 
 /**
@@ -497,8 +497,7 @@ function editVegetableStock(array $vegetables, array $orders): array
         for ($i = 0; $i < count($vegetables); $i++) {
             for ($a = 0; $a < count($orders); $a++) {
                 if ($vegetables[$i]["id"] == $orders[$a]["itemId"]) {
-                    $newStock = $vegetables[$i]["stock"] - $orders[$a]["quantity"];
-                    $vegetables[$i]["stock"] = $newStock;
+                    $vegetables[$i]["stock"] = $vegetables[$i]["stock"] - $orders[$a]["quantity"];
                 }
             }
         }

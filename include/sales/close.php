@@ -18,13 +18,13 @@ function closeTransaction(array $vegetableData, array &$ordersData, array $sales
             echo "\n";
             $customerName = askCustomerName();
             // $id = getId($sales);
-            $vegetableData[] = editVegetableStock($vegetableData, $ordersData);
+            $vegetableData = editVegetableStock($vegetableData, $ordersData);
             $sales[] = getSalesData(ordersData: $ordersData, salesData: $sales, name: $customerName);
             // $name = $sales[count($sales) - 1]["customerName"];
             for ($i = 0; $i < count($sales); $i++) {
                 if ($customerName == $sales[$i]["customerName"]) {
                     $masterId = $sales[$i]["id"];
-                    $salesItem[] = getSalesItemData(order: $ordersData, salesItems: $salesItems, masterId: $masterId);
+                    $salesItems[] = getSalesItemData(order: $ordersData, salesItems: $salesItems, masterId: $masterId);
                 }
             }
             $sentence = "Apakah anda yakin ingin menutup transaksi ini (y/n) ? ";
