@@ -386,22 +386,22 @@ function getId(array $array): int
 /**
  * Membuat function untuk mendapatkan array $salesItem (penjualan) dan menyimpannya dalam array $salesItem
  */
-function buildSalesItemData(array $order, array $salesItems,  int $masterId): array
+function buildSalesItemData(array $order, array $salesItems, int $masterId): array
 {
     while (true) {
-        $array = [];
+        // $array = [];
         for ($i = 0; $i < count($order); $i++) {
             $itemId = $order[$i]["itemId"];
             $quantity = $order[$i]["quantity"];
             $price = $order[$i]["amount"];
-            // $id = getId($salesItem);
+            $id = getId($salesItems);
             if (count($salesItems) == 0) {
                 $id = 0;
             } else {
                 $id = $salesItems[count($salesItems) - 1]["id"] + 1;
             }
 
-            $array[] = array(
+            $salesItems[] = array(
                 "id" => $id,
                 "masterId" => $masterId,
                 "itemId" => $itemId,
@@ -410,7 +410,7 @@ function buildSalesItemData(array $order, array $salesItems,  int $masterId): ar
             );
         }
 
-        return $array;
+        return $salesItems;
     }
 }
 
@@ -442,12 +442,12 @@ function getSumQuantity(array $ordersData)
 /**
  * Membuat funcion untuk menentukan tanggal transaksi dibuat
  */
-function getDateTransaction()
-{
-    $time = time();
-    //$date = date("j F Y H:i", $time);
-    return time();
-}
+// function getDateTransaction()
+// {
+//     $time = time();
+//     //$date = date("j F Y H:i", $time);
+//     return time();
+// }
 
 /**
  * Membuat function untuk menambahkan data pada data $sales
@@ -458,12 +458,13 @@ function buildSalesData(array $ordersData, array $salesData, string $name): arra
         // $customerName = askCustomerName();
         $amount = getTotalPrice($ordersData);
         $quantity = getSumQuantity($ordersData);
-        $date = getDateTransaction();
+        // $date = getDateTransaction();
+        $time = time();
         $id = getId($salesData);
 
         return array(
             "id" => $id,
-            "createdAt" => $date,
+            "createdAt" => $time,
             "customerName" => $name,
             "amount" => $amount,
             "quantity" => $quantity
@@ -493,10 +494,11 @@ function askCustomerName(): string
 function editVegetableStock(array $vegetables, array $orders): array
 {
     if (count($orders) > 0) { {
-        for ($i = 0; $i < count($vegetables); $i++) {
-            for ($a = 0; $a < count($orders); $a++) {
-                if ($vegetables[$i]["id"] == $orders[$a]["itemId"]) {
-                    $vegetables[$i]["stock"] = $vegetables[$i]["stock"] - $orders[$a]["quantity"];
+            for ($i = 0; $i < count($vegetables); $i++) {
+                for ($a = 0; $a < count($orders); $a++) {
+                    if ($vegetables[$i]["id"] == $orders[$a]["itemId"]) {
+                        $vegetables[$i]["stock"] = $vegetables[$i]["stock"] - $orders[$a]["quantity"];
+                    }
                 }
             }
         }
@@ -505,6 +507,16 @@ function editVegetableStock(array $vegetables, array $orders): array
     return $vegetables;
 }
 
+/**
+ * Membuat function untuk menambahkan array $totalSalesItems array ini akan menampug jumlah item yang terjual
+ * dan juga menampung total jumlah uang yang didapat dari penjualan item tersebut. array ini nantinya akan digunakan pada 
+ * saat mencari besar omzet dari hasil penjualan dan juga utuk mencari sayur terfavorite
+ */
+function buildTotalSalesItem(array $salesData, array $salesItemData, array $totalSalesItems)
+{
+    for ($i = 0; $i < count($salesItemData); $i++) {
+    }
+}
 
 /**
  * Membuat function untuk  

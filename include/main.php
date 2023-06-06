@@ -88,8 +88,6 @@ function transaction()
         } else if ($input === 4) {
             $orders = deleteItemOrder($orders);
         } else if ($input == 5) {
-            // $vegetables = editVegetableStock($vegetables, $orders);
-            // $sales = getSalesData(ordersData: $orders, salesData: $sales);
             $closedTrxData = closeTransaction(
                 vegetableData: $vegetables,
                 ordersData: $orders,
@@ -102,12 +100,12 @@ function transaction()
             $vegetables = $closedTrxData[0];
             $sales = $closedTrxData[1];
             $salesItems = $closedTrxData[2];
+            $orders = $closedTrxData[3];
 
             // $salesItems = insertSalesData(sales: $sales, orders: $orders, salesItem: $salesItems);
         } else if ($input == 6) {
             echo "Kembali ke menu penjualan\n";
             echo $spacer;
-            return $vegetables;
             break;
         } else {
             echo "Pilih menu dari no 1 sampai 6. \n";
@@ -118,8 +116,13 @@ function transaction()
 /**
  * Membuat sub menu dari menu 2 yaitu penjualan (sales)
  */
-function salesMenu(array $vegetables, array $sales, array $salesItems, array $orders, array $closedTrxData)
+function salesMenu()
 {
+    global $vegetables;
+    global $sales;
+    global $salesItems;
+    global $orders;
+
     $spacer = "\n==========\n";
     while (true) {
         echo "PENJUALAN: \n";
@@ -187,8 +190,8 @@ function main()
     global $vegetables;
     global $sales;
     global $salesItems;
-    global $orders;
-    global $closedTrxData;
+    // global $orders;
+    // global $closedTrxData;
 
     $spacer = "\n==========\n";
     while (true) {
@@ -199,7 +202,7 @@ function main()
             vegetablesMenu($vegetables, $salesItems);
             echo $spacer;
         } else if ($menu == 2) {
-            salesMenu($vegetables, $sales, $salesItems, $orders, $closedTrxData);
+            salesMenu();
 
             echo $spacer;
         } else if ($menu == 3) {

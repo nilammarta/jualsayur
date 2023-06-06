@@ -18,7 +18,7 @@ function closeTransaction(array $vegetableData, array &$ordersData, array $sales
             echo "\n";
             $customerName = askCustomerName();
             // $id = getId($sales);
-            
+
             $sentence = "Apakah anda yakin ingin menutup transaksi ini (y/n) ? ";
             if (continueInput($sentence) == false) {
                 echo "Transaksi batal disimpan. \n";
@@ -30,24 +30,26 @@ function closeTransaction(array $vegetableData, array &$ordersData, array $sales
                 // build master of sales data and append into global $sales db
                 $sales[] = buildSalesData(ordersData: $ordersData, salesData: $sales, name: $customerName);
                 // $name = $sales[count($sales) - 1]["customerName"];
-                
+
                 // build sales items data and append into global $salesItems db
                 for ($i = 0; $i < count($sales); $i++) {
                     if ($customerName == $sales[$i]["customerName"]) {
                         $masterId = $sales[$i]["id"];
-                        $salesItems[] = buildSalesItemData(order: $ordersData, salesItems: $salesItems, masterId: $masterId);
+
+                        $salesItems = buildSalesItemData(order: $ordersData, salesItems: $salesItems, masterId: $masterId);
                     }
                 }
 
-                // menyimpan data ke array $sales dan $salesItem 
+                // menghapus data dalam array $orders
                 unset($ordersData);
+
+                $ordersData = [];
                 echo "Transaksi telah disimpan! \n";
                 echo "-----\n";
             }
             break;
         }
     }
-    // return $salesItem;
-    // return $ordersData;
-    return [$vegetableData, $sales, $salesItems];
+
+    return [$vegetableData, $sales, $salesItems, $ordersData];
 }
