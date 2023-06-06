@@ -56,8 +56,14 @@ function vegetablesMenu(array $vegetables, array $salesItems)
 /**
  * Membuat sub menu untuk menu tambah pada menu 2 di salses menu 
  */
-function transaction(array $vegetables, array $sales, array $salesItems, array $orders, array $closedTrxData)
+function transaction()
 {
+    global $vegetables;
+    global $sales;
+    global $salesItems;
+    global $orders;
+    global $closedTrxData;
+
     $spacer = "\n==========\n";
     while (true) {
         echo "NOTA PENJUALAN \n";
@@ -127,7 +133,7 @@ function salesMenu(array $vegetables, array $sales, array $salesItems, array $or
             searchSales($vegetables, $sales, $salesItems);
             echo $spacer;
         } else if ($input == 2) {
-            $vegetables = transaction($vegetables, $sales, $salesItems, $orders, $closedTrxData);
+            transaction();
             echo $spacer;
         } else if ($input == 3) {
             echo "Kembali ke menu utama.";
@@ -183,6 +189,7 @@ function main()
     global $salesItems;
     global $orders;
     global $closedTrxData;
+
     $spacer = "\n==========\n";
     while (true) {
         echo mainMenu();
@@ -193,6 +200,7 @@ function main()
             echo $spacer;
         } else if ($menu == 2) {
             salesMenu($vegetables, $sales, $salesItems, $orders, $closedTrxData);
+
             echo $spacer;
         } else if ($menu == 3) {
         } else if ($menu == 4) {

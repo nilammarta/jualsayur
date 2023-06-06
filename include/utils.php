@@ -386,7 +386,7 @@ function getId(array $array): int
 /**
  * Membuat function untuk mendapatkan array $salesItem (penjualan) dan menyimpannya dalam array $salesItem
  */
-function getSalesItemData(array $order, array $salesItems,  int $masterId): array
+function buildSalesItemData(array $order, array $salesItems,  int $masterId): array
 {
     while (true) {
         $array = [];
@@ -445,14 +445,14 @@ function getSumQuantity(array $ordersData)
 function getDateTransaction()
 {
     $time = time();
-    $date = date("j F Y H:i", $time);
-    return $date;
+    //$date = date("j F Y H:i", $time);
+    return time();
 }
 
 /**
  * Membuat function untuk menambahkan data pada data $sales
  */
-function getSalesData(array $ordersData, array $salesData, string $name): array
+function buildSalesData(array $ordersData, array $salesData, string $name): array
 {
     while (true) {
         // $customerName = askCustomerName();
@@ -460,6 +460,7 @@ function getSalesData(array $ordersData, array $salesData, string $name): array
         $quantity = getSumQuantity($ordersData);
         $date = getDateTransaction();
         $id = getId($salesData);
+
         return array(
             "id" => $id,
             "createdAt" => $date,
@@ -491,9 +492,7 @@ function askCustomerName(): string
  */
 function editVegetableStock(array $vegetables, array $orders): array
 {
-    if (count($orders) == 0) {
-        return $vegetables;
-    } else {
+    if (count($orders) > 0) { {
         for ($i = 0; $i < count($vegetables); $i++) {
             for ($a = 0; $a < count($orders); $a++) {
                 if ($vegetables[$i]["id"] == $orders[$a]["itemId"]) {
@@ -501,12 +500,11 @@ function editVegetableStock(array $vegetables, array $orders): array
                 }
             }
         }
-
-        return $vegetables;
     }
 
-    // return $vegetables;
+    return $vegetables;
 }
+
 
 /**
  * Membuat function untuk  
