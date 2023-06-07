@@ -22,7 +22,8 @@ function editItemOrder(array $ordersData, array $vegetableData)
         if ($orderId == -1) {
             echo "\nTidak ditemukan nomor item sayur yang diinput \n";
             echo "\n-------\n";
-            break;
+            // break;
+            return $ordersData;
         }
         // mencari item yang sesuai dengan inputan id yang ada pada array $ordersData
         $theVegetableOrder = getVegetableById($orderId,  $ordersData);

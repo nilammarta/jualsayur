@@ -6,12 +6,13 @@ require_once "show.php";
  * Membuat function untuk pilihan transasi, dimana setelah terjadinya penutupan ini, transaksi tidak bisa di rubah ataupun
  * dihapus karena transaksi sudah disimpan 
  */
-function closeTransaction(array $vegetableData, array &$ordersData, array $sales, array $salesItems)
+function closeTransaction(array $vegetableData, array &$ordersData, array $sales, array $salesItems, array $totalSalesItems)
 {
     while (true) {
         if (count($ordersData) == 0) {
             echo "Tidak dapat menyimpan transaksi karena data item (orders) masih kosong . \n";
             echo "-----\n";
+            break;
         } else {
 
             showItemTransaction($ordersData);
@@ -40,6 +41,17 @@ function closeTransaction(array $vegetableData, array &$ordersData, array $sales
                     }
                 }
 
+                //build total sales items data into global $totalSalesItems
+                if (count($totalSalesItems) == 0) {
+                    $id = 0;
+                    // $totalSalesItems = addTotalSalesItemData(ordersData: $ordersData, totalSalesItems: $totalSalesItems, id: $id);
+                } else {
+                    $id = $totalSalesItems[count($totalSalesItems) - 1]["id"] + 1;
+                    // $totalSalesItems = editTotalSalesItemData(ordersData: $ordersData, totalSalesItems: $totalSalesItems, id: $id);
+                }
+                $totalSalesItems = buildTotalSalesItems(ordersData: $ordersData, totalSalesItems: $totalSalesItems, id: $id);
+
+
                 // menghapus data dalam array $orders
                 unset($ordersData);
 
@@ -51,5 +63,5 @@ function closeTransaction(array $vegetableData, array &$ordersData, array $sales
         }
     }
 
-    return [$vegetableData, $sales, $salesItems, $ordersData];
+    return [$vegetableData, $sales, $salesItems, $ordersData, $totalSalesItems];
 }

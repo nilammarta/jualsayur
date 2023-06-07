@@ -37,9 +37,10 @@ function searchSales(array $vegetablesData, array $salesData, array $salesItemsD
                     for ($a = 0; $a < count($salesData); $a++) {
                         if ($id == $salesData[$a]["id"]) {
                             // $salesResultData = getSalesById($salesResult, $id);
+                            $fixAmount = number_format($salesData[$a]["amount"]);
                             $date = date('j F Y H:i', $salesData[$a]["createdAt"]);
                             echo $i + 1 . ". " .  $date . " kepada " . $salesData[$a]["customerName"]
-                                . ", total Rp " . $salesData[$a]["amount"] . ": \n";
+                                . ", total Rp " . $fixAmount . ": \n";
                             showSale(vegetables: $vegetablesData, salesItem: $salesItemsData, salesId: $id);
                             echo "\n";
                         }

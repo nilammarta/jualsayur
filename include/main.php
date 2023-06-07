@@ -12,6 +12,7 @@ require_once "sales/show.php";
 require_once "sales/edit.php";
 require_once "sales/delete.php";
 require_once "sales/close.php";
+require_once "report/omzet.php";
 
 
 /**
@@ -49,6 +50,9 @@ function vegetablesMenu(array $vegetables, array $salesItems)
         } else if ($input == 6) {
             echo "Kembali ke menu utama. ";
             break;
+        } else {
+            echo "Pilih menu dari nomor 1 sampai 6. \n";
+            echo $spacer;
         }
     }
 }
@@ -62,7 +66,7 @@ function transaction()
     global $sales;
     global $salesItems;
     global $orders;
-    global $closedTrxData;
+    global $totalSalesItems;
 
     $spacer = "\n==========\n";
     while (true) {
@@ -92,7 +96,8 @@ function transaction()
                 vegetableData: $vegetables,
                 ordersData: $orders,
                 sales: $sales,
-                salesItems: $salesItems
+                salesItems: $salesItems,
+                totalSalesItems: $totalSalesItems
             );
             // $closedTrxData[0] => vegetables
             // $closedTrxData[1] => $sales
@@ -101,14 +106,16 @@ function transaction()
             $sales = $closedTrxData[1];
             $salesItems = $closedTrxData[2];
             $orders = $closedTrxData[3];
+            $totalSalesItems = $closedTrxData[4];
 
             // $salesItems = insertSalesData(sales: $sales, orders: $orders, salesItem: $salesItems);
         } else if ($input == 6) {
             echo "Kembali ke menu penjualan\n";
-            echo $spacer;
+
             break;
         } else {
             echo "Pilih menu dari no 1 sampai 6. \n";
+            echo $spacer;
         }
     }
 }
@@ -121,7 +128,7 @@ function salesMenu()
     global $vegetables;
     global $sales;
     global $salesItems;
-    global $orders;
+    // global $orders;
 
     $spacer = "\n==========\n";
     while (true) {
@@ -140,10 +147,11 @@ function salesMenu()
             echo $spacer;
         } else if ($input == 3) {
             echo "Kembali ke menu utama.";
-            echo $spacer;
+
             break;
         } else {
             echo "Pilih menu dari no 1 sampai 3. \n";
+            echo $spacer;
         }
     }
 }
@@ -162,10 +170,16 @@ function reportTransaction(array $sales)
         echo "Pilih Menu: ";
         $input = readInputAsInt();
         if ($input == 1) {
+            omzet($sales);
+            echo $spacer;
         } else if ($input == 2) {
         } else if ($input == 3) {
+            echo "Ke menu utama \n";
+
+            break;
         } else {
             echo "Pilih menu dari no 1 sampai 3 saja, \n";
+            echo $spacer;
         }
     }
 }
@@ -206,11 +220,14 @@ function main()
 
             echo $spacer;
         } else if ($menu == 3) {
+            reportTransaction($sales);
+            echo $spacer;
         } else if ($menu == 4) {
             echo "Keluar. \n";
             break;
         } else {
             echo "Pilih menu dari no 1 sampai 4. \n";
+            echo $spacer;
         }
     }
 }

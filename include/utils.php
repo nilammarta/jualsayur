@@ -22,18 +22,6 @@ function readInputAsString(): string
     return trim(fgets(STDIN));
 }
 
-/**
- * Membuat function untuk membaca inputan user berupa float
- */
-// function isFloat($input): bool
-// {
-//     // $input = trim(fgets(STDIN));
-//     if (is_float($input)) {
-//         return true;
-//     } else {
-//         return false;
-//     }
-// }
 
 function readInputAsFloat(): float
 {
@@ -283,70 +271,12 @@ function showSale(array $vegetables, array $salesItem, int $salesId)
             $id = $salesItem[$i]["itemId"];
             $theVegetables = getVegetableById($id, $vegetables);
             $fixVegetablesPrice = number_format($theVegetables["price"]);
+            $fixSalesAmount = number_format($salesItem[$i]["price"]);
             echo "- " . $salesItem[$i]["quantity"] . " " . $theVegetables["name"]
-                . " [Rp " . $fixVegetablesPrice . "] => Rp " . $salesItem[$i]["price"] . "\n";
+                . " [Rp " . $fixVegetablesPrice . "] => Rp " . $fixSalesAmount . "\n";
         }
     }
 }
-
-/**
- * Membuat function untuk melakukan validasi dan juga megubah banyak stok sayur jika sudah disimpan pada nota penjualan
- */
-// function editVegetableStock(array $vegetable, float $quantity): array
-// {
-//     while (true) {
-//         // for ($i = 0; $i < count($vegetablesData); $i++) {
-//         //     if ($vegetable["id"] == $vegetablesData[$i]["id"]) {
-//         $id = $vegetable["id"];
-//         $name = $vegetable["name"];
-//         $category = $vegetable["category"];
-//         $price = $vegetable["price"];
-//         $newstock = $vegetable["stock"] - $quantity;
-
-//         return array(
-//             "id" => $id,
-//             "name" => $name,
-//             "category" => $category,
-//             "stock" => $newstock,
-//             "price" => $price,
-
-//         );
-//         //     }
-//         // }
-//         // return $vegetablesData;
-//     }
-// }
-
-/**
- * Membuat function untuk mengubah stock yang ada pada array $vegetables  
- */
-// function newStockVegetable(array $vegetablesData, array $ordersData): array
-// {
-//     if (count($ordersData) == 0) {
-//         return $vegetablesData;
-//     } else {
-//         for ($i = 0; $i < count($vegetablesData); $i++) {
-//             // for ($a = 0; $a < count($ordersData); $a++) {
-//             $indexOrder = count($ordersData) - 1;
-//             if ($vegetablesData[$i]["id"] == $ordersData[$indexOrder]["itemId"]) {
-//                 $vegetablesData[$i] = editVegetableStock($vegetablesData[$i], $ordersData[$indexOrder]["quantity"]);
-//                 return $vegetablesData;
-//             }
-//             // }
-//         }
-//     }
-//     // return $vegetableData;
-// }
-
-/**
- * Membuat function untuk meen tukan total harga dari barang yang di beli dengan cara mengalikan harga dengan quantity
- */
-// function getAmountPrice($price, $quantity)
-// {
-//     $priceTotal = $price * $quantity;
-//     $fixPrice = number_format($priceTotal);
-//     return $fixPrice;
-// }
 
 function getOrder(array $vegetable, float $quantity, int $id): array
 {
@@ -394,7 +324,7 @@ function buildSalesItemData(array $order, array $salesItems, int $masterId): arr
             $itemId = $order[$i]["itemId"];
             $quantity = $order[$i]["quantity"];
             $price = $order[$i]["amount"];
-            $id = getId($salesItems);
+            // $id = getId($salesItems);
             if (count($salesItems) == 0) {
                 $id = 0;
             } else {
@@ -423,8 +353,8 @@ function getTotalPrice(array $orders)
     for ($i = 0; $i < count($orders); $i++) {
         $total = $total + $orders[$i]["amount"];
     }
-    $fixTotal = number_format($total);
-    return $fixTotal;
+    // $fixTotal = number_format($total);
+    return $total;
 }
 
 /**
@@ -439,15 +369,6 @@ function getSumQuantity(array $ordersData)
     return $total;
 }
 
-/**
- * Membuat funcion untuk menentukan tanggal transaksi dibuat
- */
-// function getDateTransaction()
-// {
-//     $time = time();
-//     //$date = date("j F Y H:i", $time);
-//     return time();
-// }
 
 /**
  * Membuat function untuk menambahkan data pada data $sales
@@ -508,76 +429,141 @@ function editVegetableStock(array $vegetables, array $orders): array
 }
 
 /**
+ * Membuat fuction untuk menambahkan data ke dalam array $totalSalesItems 
+ */
+function addTotalSalesItemData(array $ordersData, array $totalSalesItems, int $id): array
+{
+    for ($i = 0; $i < count($ordersData); $i++) {
+        $itemId = $ordersData[$i]["itemId"];
+
+        // $totalQuantity = $ordersData[$i]["quantity"];
+        $totalQuantity = getTotalQUantityItem(totalSalesItems: $totalSalesItems, ordersData: $ordersData, quantity: $ordersData[$i]["quantity"]);
+        // $totalAmount = $ordersData[$i]["amount"];
+        $totalAmount = getTotalAmount(ordersData: $ordersData, totalSalesItems: $totalSalesItems, amount: $ordersData[$i]["amount"]);
+        $totalSalesItems[] = array(
+            "id" => $id,
+            "itemId" => $itemId,
+            "totalQuantity" => $totalQuantity,
+            "totalAmount" => $totalAmount,
+        );
+    }
+    return $totalSalesItems;
+}
+
+/**
+ * Membuat functio untuk mengedit atau memperbarui data dalam array$totalSalesItems
+ */
+function editTotalSalesItemData(array $ordersData, array $totalSalesItems, int $id): array
+{
+    for ($i = 0; $i < count($ordersData); $i++) {
+        $itemId = $ordersData[$i]["itemId"];
+        for ($a = 0; $a < count($totalSalesItems); $a++) {
+            if ($totalSalesItems[$a]["itemId"] ==  $ordersData[$i]["itemId"]) {
+                // $totalQuantity = $ordersData[$i]["quantity"];
+                $totalQuantity = getTotalQUantityItem(totalSalesItems: $totalSalesItems, ordersData: $ordersData, quantity: $ordersData[$i]["quantity"]);
+                // $totalAmount = $ordersData[$i]["amount"];
+                $totalAmount = getTotalAmount(ordersData: $ordersData, totalSalesItems: $totalSalesItems, amount: $ordersData[$i]["amount"]);
+                $totalSalesItems[$a] = array(
+                    "id" => $id,
+                    "itemId" => $itemId,
+                    "totalQuantity" => $totalQuantity,
+                    "totalAmount" => $totalAmount,
+                );
+                return $totalSalesItems;
+            } else {
+                $totalQuantity = getTotalQUantityItem(totalSalesItems: $totalSalesItems, ordersData: $ordersData, quantity: $ordersData[$i]["quantity"]);
+                // $totalAmount = $ordersData[$i]["amount"];
+                $totalAmount = getTotalAmount(ordersData: $ordersData, totalSalesItems: $totalSalesItems, amount: $ordersData[$i]["amount"]);
+                $totalSalesItems[] = array(
+                    "id" => $id,
+                    "itemId" => $itemId,
+                    "totalQuantity" => $totalQuantity,
+                    "totalAmount" => $totalAmount,
+                );
+            }
+        }
+    }
+    return $totalSalesItems;
+}
+
+/**
  * Membuat function untuk menambahkan array $totalSalesItems array ini akan menampug jumlah item yang terjual
  * dan juga menampung total jumlah uang yang didapat dari penjualan item tersebut. array ini nantinya akan digunakan pada 
  * saat mencari besar omzet dari hasil penjualan dan juga utuk mencari sayur terfavorite
  */
-function buildTotalSalesItem(array $salesData, array $salesItemData, array $totalSalesItems)
+function buildTotalSalesItems(array $ordersData, array $totalSalesItems, int $id): array
 {
-    for ($i = 0; $i < count($salesItemData); $i++) {
+    if (count($totalSalesItems) == 0) {
+        $appendData = addTotalSalesItemData(ordersData: $ordersData, totalSalesItems: $totalSalesItems, id: $id);
+        // return $appendData;
+    } else {
+
+        // if (count($totalSalesItems) == 0) {
+        //     $appendData = addTotalSalesItemData(ordersData: $ordersData, totalSalesItems: $totalSalesItems, id: $id);
+        //     return $appendData;
+        // } else {
+        $appendData = editTotalSalesItemData(ordersData: $ordersData, totalSalesItems: $totalSalesItems, id: $id);
+    }
+    return $appendData;
+}
+
+
+/**
+ *Membuat function untuk mengecek apakah ada "itemId" yang sama dengan item id yang ada di array orders dan array totalSalesItem
+ *  jika ada yang sama total amount akan ditambahkan dengan total amount sebelumnya
+ */
+function getTotalAmount(array $ordersData, array $totalSalesItems, int $amount): int
+{
+    if (count($totalSalesItems) == 0) {
+        return $amount;
+    } else {
+        for ($i = 0; $i < count($totalSalesItems); $i++) {
+            for ($a = 0; $a < count($ordersData); $a++) {
+                if ($totalSalesItems[$i]["itemId"] == $ordersData[$a]["itemId"]) {
+                    $total = $totalSalesItems[$i]["totalAmount"];
+                    $total = $total + $ordersData[$a]["amount"];
+                } else {
+                    return $amount;
+                }
+            }
+        }
+        // return $totalSalesItems[$i]["totalAmount"];
+        return $total;
     }
 }
 
 /**
- * Membuat function untuk  
+ * membuat function untuk mengecek quantity jika itemId yang ada pada array $totalSalesData sama maka akan ditambahkan 
+ * 
  */
-// function getItemIdByInputId(array $vegetablesData, int $inputId): int
-// {
-//     // while (true) {
-//     for ($i = 0; $i < count($vegetablesData); $i++) {
-//         if ($vegetablesData[$i]["id"] == $inputId) {
-//             $itemid = $inputId;
-//             return $itemid;
-//         }
-//     }
-//     // }
-// }
+function getTotalQUantityItem(array $totalSalesItems, array $ordersData, float $quantity): float
+{
+    if (count($totalSalesItems) == 0) {
+        return $quantity;
+    } else {
+        for ($i = 0; $i < count($totalSalesItems); $i++) {
+            for ($a = 0; $a < count($ordersData); $a++) {
+                if ($totalSalesItems[$i]["itemId"] == $ordersData[$a]["itemId"]) {
+                    $total = $totalSalesItems[$i]["totalQuantity"];
+                    $total = $total + $ordersData[$a]["quantity"];
+                } else {
+                    return $quantity;
+                }
+            }
+        }
+        // return $totalSalesItems[$i]["totalQuantity"];
+        return $total;
+    }
+}
 
-// function getPrice(array $vegetablesData, float $quantity, int $itemId)
-// {
-//     for ($i = 0; $i < count($vegetablesData); $i++) {
-//         if ($vegetablesData[$i]["id"] == $itemId) {
-//             $price = $vegetablesData[$i]["price"] * $quantity;
-//             $fixPrice = number_format($price);
-//             return $fixPrice;
-//         }
-//     }
-// }
-
-// // function getId(array $salesItem)
-// // {
-// //     if (count ($salesItem) == 0){
-// //         $id = 0;
-// //     } else {
-// //         $id = $salesItem[count($salesItem) - 1]["id"] + 1 ;
-// //     }
-// //     return $id;
-// // }
-// function addNewSalesItemsData(int $id, int $masterId, float $quantityInput, array $vegetableData, int $inputId): array
-// {
-//     while (true) {
-//         $itemId = getItemIdByInputId($vegetableData, $inputId);
-//         $price 
-//     }
-// }
-
-// function insertSalesData(array $sales, array $orders, array $salesItem): array
-// {
-//     while (true) {
-//         $masterId = $sales[count($sales) - 1]["id"];
-//         // for ($i = 0; $i < count ($sales); $i++){
-//         //     if ()
-//         // }
-//         $salesItem[] = getSalesItemData(order: $orders, salesItem: $salesItem, masterId: $masterId);
-//         $sentence = "Apakah anda yakin ingin menutup transaksi ini (y/n) ? ";
-//         if (continueInput($sentence) == false) {
-//             echo "Transaksi batal disimpan. \n";
-//             return $orders;
-//         } else {
-//             unset($orders);
-//             echo "Transaksi telah disimpan! \n";
-//             echo "-----\n";
-//         }
-//     }
-//     return $salesItem;
-// }
+/**
+ * Membuat function untuk menjumlahkan semua amount yang ada pada data $sales
+ */
+function getSumAmount(array $sales): int
+{
+    $total = 0;
+    for ($i = 0; $i < count($sales); $i++) {
+        $total = $total + $sales[$i]["amount"];
+    }
+    return $total;
+}

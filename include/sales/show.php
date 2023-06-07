@@ -11,7 +11,7 @@ function showItemTransaction(array $ordersData)
     if (count($ordersData) == 0) {
         echo "Tidak ada data transaksi penjualan. \n";
     } else {
-        $total = getTotalPrice($ordersData);
+        $total = number_format(getTotalPrice($ordersData));
         echo "Total Rp " . $total . ": \n";
         for ($i = 0; $i < count($ordersData); $i++) {
             $fixPrice = number_format($ordersData[$i]["price"]);
