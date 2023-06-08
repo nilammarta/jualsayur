@@ -49,8 +49,18 @@ function closeTransaction(array $vegetableData, array &$ordersData, array $sales
                     $id = $totalSalesItems[count($totalSalesItems) - 1]["id"] + 1;
                     // $totalSalesItems = editTotalSalesItemData(ordersData: $ordersData, totalSalesItems: $totalSalesItems, id: $id);
                 }
-                $totalSalesItems = buildTotalSalesItems(ordersData: $ordersData, totalSalesItems: $totalSalesItems, id: $id);
 
+                for ($i = 0; $i < count($ordersData); $i++) {
+                    $order = $ordersData[$i];
+                    $totalSalesItems = buildTotalSalesItems(orderData: $order, totalSalesItems: $totalSalesItems, id: $id);
+                }
+
+
+                // for ($i =0; $i < count ($ordersData); $i++){
+                //     $orderId = $ordersData[$i]["id"];
+                //     $theOrder = getVegetableById($orderId, $$ordersData);
+
+                // }
 
                 // menghapus data dalam array $orders
                 unset($ordersData);

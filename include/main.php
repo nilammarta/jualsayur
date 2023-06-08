@@ -3,7 +3,6 @@
 require_once "utils.php";
 require_once "search.php";
 require_once "vegetables/create.php";
-// require_once "vegetables/search.php";
 require_once "vegetables/edit.php";
 require_once "vegetables/delete.php";
 require_once "sales/search.php";
@@ -13,6 +12,7 @@ require_once "sales/edit.php";
 require_once "sales/delete.php";
 require_once "sales/close.php";
 require_once "report/omzet.php";
+require_once "report/favorite.php";
 
 
 /**
@@ -159,7 +159,7 @@ function salesMenu()
 /**
  * Membuat function untuk menu 3 yaitu pelaporan 
  */
-function reportTransaction(array $sales)
+function reportTransaction(array $sales, array $totalSalesItems)
 {
     $spacer = "\n==========\n";
     while (true) {
@@ -173,6 +173,8 @@ function reportTransaction(array $sales)
             omzet($sales);
             echo $spacer;
         } else if ($input == 2) {
+            bestVegetables($totalSalesItems);
+            echo $spacer;
         } else if ($input == 3) {
             echo "Ke menu utama \n";
 
@@ -206,6 +208,7 @@ function main()
     global $salesItems;
     // global $orders;
     // global $closedTrxData;
+    global $totalSalesItems;
 
     $spacer = "\n==========\n";
     while (true) {
@@ -220,7 +223,7 @@ function main()
 
             echo $spacer;
         } else if ($menu == 3) {
-            reportTransaction($sales);
+            reportTransaction($sales, $totalSalesItems);
             echo $spacer;
         } else if ($menu == 4) {
             echo "Keluar. \n";
