@@ -159,7 +159,7 @@ function salesMenu()
 /**
  * Membuat function untuk menu 3 yaitu pelaporan 
  */
-function reportTransaction(array $sales, array $totalSalesItems)
+function reportTransaction(array $sales, array $totalSalesItems, array $vegetables)
 {
     $spacer = "\n==========\n";
     while (true) {
@@ -173,7 +173,7 @@ function reportTransaction(array $sales, array $totalSalesItems)
             omzet($sales);
             echo $spacer;
         } else if ($input == 2) {
-            bestVegetables($totalSalesItems);
+            bestVegetables($totalSalesItems, $vegetables);
             echo $spacer;
         } else if ($input == 3) {
             echo "Ke menu utama \n";
@@ -223,7 +223,7 @@ function main()
 
             echo $spacer;
         } else if ($menu == 3) {
-            reportTransaction($sales, $totalSalesItems);
+            reportTransaction($sales, $totalSalesItems, $vegetables);
             echo $spacer;
         } else if ($menu == 4) {
             echo "Keluar. \n";
