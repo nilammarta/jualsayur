@@ -10,6 +10,7 @@ function deleteItemOrder(array $ordersData)
 {
     while (true) {
         if (count($ordersData) == 0) {
+            // todo: "tidak dapat melakukan penghapusan..."
             echo "Tidak dapat melakukan pengeditan karena data order masih kosong. \n";
         } else {
             showItemTransaction($ordersData);
@@ -29,6 +30,7 @@ function deleteItemOrder(array $ordersData)
                 }
             }
 
+            // todo: ini semestinya ada tepat setelah unset() di atas
             $ordersData = array_values($ordersData);
             echo  "'" . $theVegetableOrder["name"] . "' telah dihapus dari nota penjualan \n";
             echo "\n=======\n";

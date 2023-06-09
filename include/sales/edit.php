@@ -45,6 +45,7 @@ function editItemOrder(array $ordersData, array $vegetableData)
                     // jika ketemu atau ada yang sama maka orders data ke "i" quantitynya akan diubah sebanyak inputan user 
                     $ordersData[$i] = getOrder(vegetable: $theVegetableOrder, quantity: $quantityInput, id: $theVegetableOrder["id"]);
                     echo "Jumlah '" . $theVegetableOrder["name"] . "' diubah sebanyak " . $quantityInput;
+                    break;
                 }
             }
         }

@@ -48,11 +48,11 @@ function deleteVegetable(array $vegetableData, array $salesItem)
                         // break;
                         return $vegetableData;
                     }
-
+                    // todo: else?
                     unset($vegetableData[$j]);
                 }
             }
-
+            // todo: ini sepertinya dipindahkan ke else? di atas deh
             $vegetableData = array_values($vegetableData);
             echo "'" . $theVegetable["name"] . "' telah dihapus!";
             echo "\n=======\n";
