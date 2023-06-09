@@ -9,7 +9,7 @@ require_once __DIR__ . "/../search.php";
  * penjualan ini sudah disimpan, maka stok masing" item harus dikurangi dengan jumlah yang diinput oleh user
  */
 
-function insertTransactions(array $vegetablesData, array $ordersData): array
+function insertItemOrder(array $vegetablesData, array $ordersData): array
 {
     while (true) {
         if (count($vegetablesData) == 0) {

@@ -1,7 +1,7 @@
 <?php
 
 require_once __DIR__ . "/../utils.php";
-require_once "show.php";
+require_once __DIR__ . "/show.php";
 /**
  * Membuat function untuk pilihan transasi, dimana setelah terjadinya penutupan ini, transaksi tidak bisa di rubah ataupun
  * dihapus karena transaksi sudah disimpan 
@@ -15,7 +15,7 @@ function closeTransaction(array $vegetableData, array &$ordersData, array $sales
             break;
         } else {
 
-            showItemTransaction($ordersData);
+            showOrderItems($ordersData);
             echo "\n";
             $customerName = askCustomerName();
             // $id = getId($sales);

@@ -1,7 +1,7 @@
 <?php
 
 require_once __DIR__ . "/../utils.php";
-require_once "show.php";
+require_once __DIR__ . "/show.php";
 
 /**
  * Membuat function untuk menghapus item pada array order 
@@ -11,9 +11,12 @@ function deleteItemOrder(array $ordersData)
     while (true) {
         if (count($ordersData) == 0) {
             // todo: "tidak dapat melakukan penghapusan..."
-            echo "Tidak dapat melakukan pengeditan karena data order masih kosong. \n";
+            echo "Tidak dapat melakukan penghapusan karena data order masih kosong. \n";
+            echo "\n-------";
+            break;
         } else {
-            showItemTransaction($ordersData);
+            showOrderItems($ordersData);
+
             echo "\n";
             $orderId = askInputNumberIndex($ordersData, "dihapus");
             if ($orderId == -1) {
@@ -27,14 +30,19 @@ function deleteItemOrder(array $ordersData)
                 if ($orderId == $ordersData[$i]["id"]) {
 
                     unset($ordersData[$i]);
+                    $ordersData = array_values($ordersData);
+                    echo  "'" . $theVegetableOrder["name"] . "' telah dihapus dari nota penjualan \n";
+                    echo "\n=======\n";
+                    // break;
+                    return $ordersData;
                 }
             }
 
             // todo: ini semestinya ada tepat setelah unset() di atas
-            $ordersData = array_values($ordersData);
-            echo  "'" . $theVegetableOrder["name"] . "' telah dihapus dari nota penjualan \n";
-            echo "\n=======\n";
-            break;
+            // $ordersData = array_values($ordersData);
+            // echo  "'" . $theVegetableOrder["name"] . "' telah dihapus dari nota penjualan \n";
+            // echo "\n=======\n";
+            // break;
         }
     }
     return $ordersData;

@@ -6,7 +6,7 @@ require_once __DIR__ . "/../utils.php";
  * membuat function untuk menambah jenis sayuran oleh user dimana data yang diminta oleh user tidak boleh kosong
  * dan nama sayuran yang sudah ada di data tidak boleh di tambahkan lagi
  */
-function insertVegetables(array $vegetablesData)
+function insertVegetable(array $vegetablesData)
 {
     // jika data tidak ada atau kosong akan langsung ditampilkan pesan eror
     if (count($vegetablesData) == 0) {

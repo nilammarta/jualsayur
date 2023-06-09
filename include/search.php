@@ -1,6 +1,6 @@
 <?php
 
-require_once "utils.php";
+require_once __DIR__ . "/utils.php";
 
 /**
  * Membuat function untuk melakukan pencarin data sayur menggunakan nama sayur yang ada
@@ -30,6 +30,7 @@ function searchVegetables(array $vegetableData)
             if (count($searchResult) == 0) {
                 echo "\nTidak ditemukan hasil pencarian. \n";
                 echo "\n";
+                return $searchResult;
             } else {
                 // tampilkan hasil pencarian 
                 showVegetables($searchResult);

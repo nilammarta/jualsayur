@@ -1,26 +1,26 @@
 <?php
 
-require_once "utils.php";
-require_once "search.php";
-require_once "vegetables/create.php";
-require_once "vegetables/edit.php";
-require_once "vegetables/delete.php";
-require_once "sales/search.php";
-require_once "sales/create.php";
-require_once "sales/show.php";
-require_once "sales/edit.php";
-require_once "sales/delete.php";
-require_once "sales/close.php";
-require_once "report/omzet.php";
-require_once "report/favorite.php";
+require_once __DIR__ . "/utils.php";
+require_once __DIR__ . "/search.php";
+require_once __DIR__ . "/vegetables/create.php";
+require_once __DIR__ . "/vegetables/edit.php";
+require_once __DIR__ . "/vegetables/delete.php";
+require_once __DIR__ . "/sales/search.php";
+require_once __DIR__ . "/sales/create.php";
+require_once __DIR__ . "/sales/show.php";
+require_once __DIR__ . "/sales/edit.php";
+require_once __DIR__ . "/sales/delete.php";
+require_once __DIR__ . "/sales/close.php";
+require_once __DIR__ . "/report/omzet.php";
+require_once __DIR__ . "/report/favorite.php";
 
 
 /**
  * Membuat sub menu dari menu 1 yaitu sayuran 
  */
-function vegetablesMenu(array $vegetables, array $salesItems)
+function vegetablesMenu(array &$vegetables, array $salesItems)
 {
-    //global $vegetables;
+    // global $vegetables;
     $spacer = "\n==========\n";
     while (true) {
         echo "KELOLA SAYURAN \n";
@@ -37,10 +37,10 @@ function vegetablesMenu(array $vegetables, array $salesItems)
             searchVegetables($vegetables);
             echo $spacer;
         } else if ($input == 2) {
-            $vegetables = insertVegetables($vegetables);
+            $vegetables = insertVegetable($vegetables);
             echo $spacer;
         } else if ($input == 3) {
-            $vegetables = editVegetables($vegetables);
+            $vegetables = editVegetable($vegetables);
             echo $spacer;
         } else if ($input == 4) {
             $vegetables = deleteVegetable($vegetables, $salesItems);
@@ -81,10 +81,10 @@ function transaction()
         $input = readInputAsInt();
         echo "\n";
         if ($input == 1) {
-            showItemTransaction($orders);
+            showOrderItems($orders);
             echo $spacer;
         } else if ($input == 2) {
-            $orders = insertTransactions($vegetables, $orders);
+            $orders = insertItemOrder($vegetables, $orders);
             echo $spacer;
         } else if ($input == 3) {
             $orders = editItemOrder($orders, $vegetables);
@@ -107,8 +107,6 @@ function transaction()
             $salesItems = $closedTrxData[2];
             $orders = $closedTrxData[3];
             $totalSalesItems = $closedTrxData[4];
-
-            // $salesItems = insertSalesData(sales: $sales, orders: $orders, salesItem: $salesItems);
         } else if ($input == 6) {
             echo "Kembali ke menu penjualan\n";
 
@@ -206,8 +204,6 @@ function main()
     global $vegetables;
     global $sales;
     global $salesItems;
-    // global $orders;
-    // global $closedTrxData;
     global $totalSalesItems;
 
     $spacer = "\n==========\n";
@@ -220,7 +216,6 @@ function main()
             echo $spacer;
         } else if ($menu == 2) {
             salesMenu();
-
             echo $spacer;
         } else if ($menu == 3) {
             reportTransaction($sales, $totalSalesItems, $vegetables);

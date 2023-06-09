@@ -19,6 +19,9 @@ function deleteVegetable(array $vegetableData, array $salesItem)
             break;
         } else {
             $searchResults = searchVegetables($vegetableData);
+            if (count($searchResults) == 0) {
+                break;
+            }
             $id = askInputNumberIndex($searchResults, "dihapus");
             // $theVegetable = getVegetableById($id, $vegetableData);
             if ($id == -1) {
@@ -47,17 +50,25 @@ function deleteVegetable(array $vegetableData, array $salesItem)
                         echo "=======\n";
                         // break;
                         return $vegetableData;
+                    } else {
+                        // todo: else?
+                        unset($vegetableData[$j]);
+                        $vegetableData = array_values($vegetableData);
+                        echo "'" . $theVegetable["name"] . "' telah dihapus!";
+                        echo "\n=======\n";
+                        // break;
+                        return $vegetableData;
                     }
-                    // todo: else?
-                    unset($vegetableData[$j]);
                 }
             }
             // todo: ini sepertinya dipindahkan ke else? di atas deh
-            $vegetableData = array_values($vegetableData);
-            echo "'" . $theVegetable["name"] . "' telah dihapus!";
-            echo "\n=======\n";
-            break;
+            // $vegetableData = array_values($vegetableData);
+            // echo "'" . $theVegetable["name"] . "' telah dihapus!";
+            // echo "\n=======\n";
+            // break;
         }
+
+        return $vegetableData;
     }
-    return $vegetableData;
+    // return $vegetableData;
 }

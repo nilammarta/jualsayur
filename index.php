@@ -24,6 +24,14 @@ $vegetables = array(
         "category" => "umbi",
         "price" => 3000
     ),
+    array(
+        "id" => 3,
+        "name" => "Bayam",
+        "stock" => 5,
+        "category" => "sayur daun",
+        "price" => 5000
+    ),
+
 
 );
 

@@ -6,10 +6,10 @@ require_once __DIR__ . "/../utils.php";
  * Membuat function untuk menampilkan data transakasi yang sudah ada
  */
 
-function showItemTransaction(array $ordersData)
+function showOrderItems(array $ordersData)
 {
     if (count($ordersData) == 0) {
-        echo "Tidak ada data transaksi penjualan. \n";
+        echo "Tidak ada data order \n";
     } else {
         $total = number_format(getTotalPrice($ordersData));
         echo "Total Rp " . $total . ": \n";
