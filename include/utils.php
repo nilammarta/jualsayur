@@ -638,11 +638,26 @@ function buildTotalSalesItems(array $orderData, array $totalSalesItems, int $id)
 // }
 // return $appendData;
 
+/**
+ * Membuat function untuk mengsorting data $totalSalesItems untuk mendapatkan daya sayur terfavoritberdsarkan quantitas dan amount
+ */
+function sortDataByQuantity(array $totalSalesItems)
+{
+    for ($i = 1; $i < count($totalSalesItems); $i++) {
+        $totalQuantity = $totalSalesItems[$i]["totalQuantity"];
+        $item = $totalSalesItems[$i];
+        $j = $i - 1;
+        while ($j >= 0 && $totalSalesItems[$j]["totalQuantity"] < $totalQuantity) {
+            $totalSalesItems[$j + 1] = $totalSalesItems[$j];
+            $j = $j - 1;
+        }
+    }
+}
 
-
-
-
-
+while ($j >= 0 && $data[$j]["age"] > $agePerson) {
+    $data[$j + 1] = $data[$j];
+    $j = $j - 1;
+}
 /**
  * Membuat function untuk menjumlahkan semua amount yang ada pada data $sales
  */
