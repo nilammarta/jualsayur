@@ -62,6 +62,7 @@ $salesItems = [];
 //         "masterId" => 10,
 //         "itemId" => 0,
 //         "quantity" => 2,
+//         "unitPrice" => 10000,
 //         "price" => 20000
 //     ),
 // );

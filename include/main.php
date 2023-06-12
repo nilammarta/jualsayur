@@ -20,6 +20,8 @@ require_once __DIR__ . "/report/favorite.php";
  */
 function vegetablesMenu(array &$vegetables, array $salesItems)
 {
+    // system('clear');
+
     // global $vegetables;
     $spacer = "\n==========\n";
     while (true) {
@@ -62,6 +64,8 @@ function vegetablesMenu(array &$vegetables, array $salesItems)
  */
 function transaction()
 {
+    // system('clear');
+
     global $vegetables;
     global $sales;
     global $salesItems;
@@ -93,7 +97,7 @@ function transaction()
             $orders = deleteItemOrder($orders);
         } else if ($input == 5) {
             $closedTrxData = closeTransaction(
-                vegetableData: $vegetables,
+                vegetablesData: $vegetables,
                 ordersData: $orders,
                 sales: $sales,
                 salesItems: $salesItems,
@@ -121,12 +125,9 @@ function transaction()
 /**
  * Membuat sub menu dari menu 2 yaitu penjualan (sales)
  */
-function salesMenu()
+function salesMenu(array $vegetables, array &$sales, array &$salesItems)
 {
-    global $vegetables;
-    global $sales;
-    global $salesItems;
-    // global $orders;
+    // system('clear');
 
     $spacer = "\n==========\n";
     while (true) {
@@ -159,6 +160,8 @@ function salesMenu()
  */
 function reportTransaction(array $sales, array $totalSalesItems, array $vegetables)
 {
+    // system('clear');
+
     $spacer = "\n==========\n";
     while (true) {
         echo "LAPORAN \n";
@@ -183,11 +186,13 @@ function reportTransaction(array $sales, array $totalSalesItems, array $vegetabl
         }
     }
 }
+
 /**
  * Membuat function untuk menampilkan menu utama 
  */
 function mainMenu()
 {
+    // system('cls');
     echo "JUAL SAYUR \n";
     echo "  1. Sayuran \n";
     echo "  2. Penjualan \n";
@@ -215,7 +220,7 @@ function main()
             vegetablesMenu($vegetables, $salesItems);
             echo $spacer;
         } else if ($menu == 2) {
-            salesMenu();
+            salesMenu($vegetables, $sales, $salesItems);
             echo $spacer;
         } else if ($menu == 3) {
             reportTransaction($sales, $totalSalesItems, $vegetables);

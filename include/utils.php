@@ -267,10 +267,11 @@ function showSale(array $vegetables, array $salesItem, int $salesId)
         if ($salesId == $salesItem[$i]["masterId"]) {
             $id = $salesItem[$i]["itemId"];
             $theVegetables = getVegetableById($id, $vegetables);
-            $fixVegetablesPrice = number_format($theVegetables["price"]);
+
+            $fixUnitPrice = number_format($salesItem[$i]["unitPrice"]);
             $fixSalesAmount = number_format($salesItem[$i]["price"]);
             echo "- " . $salesItem[$i]["quantity"] . " " . $theVegetables["name"]
-                . " [Rp " . $fixVegetablesPrice . "] => Rp " . $fixSalesAmount . "\n";
+                . " [Rp " . $fixUnitPrice . "] => Rp " . $fixSalesAmount . "\n";
         }
     }
 }
@@ -300,7 +301,7 @@ function getOrder(array $vegetable, float $quantity, int $id): array
 }
 
 /**
- * membuat function untuk mendapatkan id 
+ * Membuat function untuk mendapatkan id 
  */
 function getId(array $array): int
 {
@@ -324,18 +325,20 @@ function buildSalesItemData(array $order, array $salesItems, int $masterId): arr
             $itemId = $order[$i]["itemId"];
             $quantity = $order[$i]["quantity"];
             $price = $order[$i]["amount"];
-            // $id = getId($salesItems);
-            if (count($salesItems) == 0) {
-                $id = 0;
-            } else {
-                $id = $salesItems[count($salesItems) - 1]["id"] + 1;
-            }
+            $unitPrice = $price / $quantity;
+            $id = getId($salesItems);
+            // if (count($salesItems) == 0) {
+            //     $id = 0;
+            // } else {
+            //     $id = $salesItems[count($salesItems) - 1]["id"] + 1;
+            // }
 
             $salesItems[] = array(
                 "id" => $id,
                 "masterId" => $masterId,
                 "itemId" => $itemId,
                 "quantity" => $quantity,
+                "unitPrice" => $unitPrice,
                 "price" => $price
             );
         }
@@ -574,4 +577,131 @@ function sortDataByAmount(array $totalSalesItems)
         $totalSalesItems[$j + 1] = $item;
     }
     return $totalSalesItems;
+}
+
+/**
+ * Membuat function untuk menyimpan data inputan user ke dalam file menggunakan json dimana inputan dari user
+ * ini akan di simpan di dalam sebuah file dengan nama "vegetables.json" sehingga pada saat keluar dari program
+ * data akan tetap tersimpan di dalam file   
+ */
+function saveVegetablesIntoJson(array $vegetables)
+{
+    $json = json_encode($vegetables);
+    $jsonVegetables = file_put_contents("vegetables.json", $json);
+}
+
+/**
+ * Membuat function untuk menyimpan data dari inputan user kedalam file menggunakan json, dimana inputan dari 
+ * user ini akan di simpan di dalam sebuah file dengan nama "sales.json" sehingga pada saat keluar dari program
+ * data akan tetap tersimpan di dalam file 
+ */
+function saveSalesIntoJson(array $sales)
+{
+    $json = json_encode($sales);
+    $jsonSales = file_put_contents("sales.json", $json);
+}
+
+/**
+ * Membuat function untuk menyimpan data dari inputan user kedalam file menggunakan json, dimana inputan dari 
+ * user ini akan di simpan di dalam sebuah file dengan nama "salesItem.json" sehingga pada saat keluar dari program
+ * data akan tetap tersimpan di dalam file 
+ */
+function saveSalesItemsIntoJson(array $salesItems)
+{
+    $json = json_encode($salesItems);
+    $jsonSalesItems = file_put_contents("salesItems.json", $json);
+}
+/**
+ * Membuat function untuk menyimpan data dari inputan user kedalam file menggunakan json, dimana inputan dari 
+ * user ini akan di simpan di dalam sebuah file dengan nama "orders.json" sehingga pada saat keluar dari program
+ * data akan tetap tersimpan di dalam file   
+ */
+function saveOrdersIntoJson(array $orders)
+{
+    $json = json_encode($orders);
+    $jsonOrders = file_put_contents("orders.json", $json);
+}
+/**
+ * Membuat function untuk menyimpan data dari inputan user kedalam file menggunakan json, dimana inputan dari 
+ * user ini akan di simpan di dalam sebuah file dengan nama "totalSalesItems.json" sehingga pada saat keluar dari program
+ * data akan tetap tersimpan di dalam file   
+ */
+function saveTotalSalesItemsIntoJson(array $totalSalesItems)
+{
+    $json = json_encode($totalSalesItems);
+    $jsonTotalSalesItems = file_put_contents("totalSalesItems.json", $json);
+}
+
+/**
+ * Membuat function untuk membaca atau mengembalikan file array persons dari encode menjadi array php (array seperti biasa)
+ * ini berguna pada saat ingin memasukkan data baru dan diletakkan di file index sebelum menu tampil 
+ * dan juga untuk menampilkan data yang sudah diinput sebelumnya 
+ */
+function loadVegetablesFromJson()
+{
+    // membuat sebuah variabel untuk menampung nama file yang sudah dibuat
+    $file = "vegetables.json";
+    // melakukan pengecekan terhadap file, apakah didalam file terdapat data atau tidak, jika ada maka lakukan
+    if (file_exists($file)) {
+        $vegetables = file_get_contents($file);
+        // melakukan decode untuk mengubah bentuk dari json menjadi bentuk array yang sesuai dengan php (array semula)
+        $json = json_decode($vegetables, true);
+        // kembalikan nilai dengan bentuk array semula atau sesuai dengan php
+        return $json;
+    } else {
+        // jika tidak ada data dalam filenya maka akan dikembalikan dengan nilai array kosong
+        return [];
+    }
+}
+
+function loadSalesFromJson()
+{
+    $file = "sales.json";
+
+    if (file_exists($file)) {
+        $sales = file_get_contents($file);
+        $json = json_decode($sales, true);
+        return $json;
+    } else {
+        return [];
+    }
+}
+
+function loadSalesItemsFromJson()
+{
+    $file = "salesItems.json";
+
+    if (file_exists($file)) {
+        $salesItems = file_get_contents($file);
+        $json = json_decode($salesItems, true);
+        return $json;
+    } else {
+        return [];
+    }
+}
+
+function loadOrdersFromJson()
+{
+    $file = "orders.json";
+
+    if (file_exists($file)) {
+        $orders = file_get_contents($file);
+        $json = json_decode($orders, true);
+        return $json;
+    } else {
+        return [];
+    }
+}
+
+function loadTotalSalesItemsFromJson()
+{
+    $file = "totalSalesItems.json";
+
+    if (file_exists($file)) {
+        $totalSalesItems = file_get_contents($file);
+        $json = json_decode($totalSalesItems, true);
+        return $json;
+    } else {
+        return [];
+    }
 }

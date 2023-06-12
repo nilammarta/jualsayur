@@ -33,11 +33,11 @@ function deleteItemOrder(array $ordersData)
                     $ordersData = array_values($ordersData);
                     echo  "'" . $theVegetableOrder["name"] . "' telah dihapus dari nota penjualan \n";
                     echo "\n=======\n";
-                    // break;
-                    return $ordersData;
+                    break;
+                    // return $ordersData;
                 }
             }
-
+            break;
             // todo: ini semestinya ada tepat setelah unset() di atas
             // $ordersData = array_values($ordersData);
             // echo  "'" . $theVegetableOrder["name"] . "' telah dihapus dari nota penjualan \n";
@@ -45,5 +45,6 @@ function deleteItemOrder(array $ordersData)
             // break;
         }
     }
+    // saveOrdersIntoJson($ordersData);
     return $ordersData;
 }

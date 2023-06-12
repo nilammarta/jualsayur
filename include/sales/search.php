@@ -6,13 +6,12 @@ require_once __DIR__ . "/../utils.php";
  * Membuat function untuk mencari transaksi penjualan yang pernah terjadi   
  */
 function searchSales(array $vegetablesData, array $salesData, array $salesItemsData)
-// function searchSales(array $closedTrxData)
 {
     while (true) {
         if ($salesData == 0) {
             echo "Tidak dapat melakukan pencarian karena data penjualan masih kosong. \n";
-            break;
         } else {
+
             // $vegetablesData = $closedTrxData[0];
             // $salesData = $closedTrxData[1];
             // $salesItemsData = $closedTrxData[2];
@@ -22,8 +21,11 @@ function searchSales(array $vegetablesData, array $salesData, array $salesItemsD
             echo "\n";
             $salesResult = searchSalesByCustomerName($salesData, $vegetablesOrSalesName);
             $vegetablesResult = searchSalesByVegetableName(salesItem: $salesItemsData, vegetables: $vegetablesData, input: $vegetablesOrSalesName);
+            // gabungkan kedua array yang telah di tampung pada $salesResult dan $vegetableResult menggunakan function 
+            // array_merge untuk mengganbungkannya
             $idSearchmerged = array_merge($salesResult, $vegetablesResult);
-            // $idSearchResult = array_merge($salesResult, $vegetablesResult);
+            // setelah digabungkan kemudian hapus value yang sama di dalan array tersebut mengunakan array_unique sehingga 
+            // value dari array setelah di gabungkan tidak ada yang sama 
             $idSearchResult = array_unique($idSearchmerged);
 
             if (count($idSearchResult) == 0) {
@@ -36,7 +38,6 @@ function searchSales(array $vegetablesData, array $salesData, array $salesItemsD
 
                     for ($a = 0; $a < count($salesData); $a++) {
                         if ($id == $salesData[$a]["id"]) {
-                            // $salesResultData = getSalesById($salesResult, $id);
                             $fixAmount = number_format($salesData[$a]["amount"]);
                             $date = date('j F Y H:i', $salesData[$a]["createdAt"]);
                             echo $i + 1 . ". " .  $date . " kepada " . $salesData[$a]["customerName"]
