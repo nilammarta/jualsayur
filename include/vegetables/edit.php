@@ -38,5 +38,6 @@ function editVegetable(array $vegetablesData)
     }
 
     // saveVegetablesIntoJson($vegetableData);
+    saveArrayIntoJson($vegetablesData, JSON_VEGETABLES);
     return $vegetablesData;
 }

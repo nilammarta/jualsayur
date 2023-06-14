@@ -2,38 +2,45 @@
 
 require "include/main.php";
 
-$vegetables = array(
-    array(
-        "id" => 0,
-        "name" => "Kubis",
-        "stock" => 25,
-        "category" => "sayur daun",
-        "price" => 10000
-    ),
-    array(
-        "id" => 1,
-        "name" => "Sawi",
-        "stock" => 30,
-        "category" => "sayur putih",
-        "price" => 8000
-    ),
-    array(
-        "id" => 2,
-        "name" => "Lobak",
-        "stock" => 20,
-        "category" => "umbi",
-        "price" => 3000
-    ),
-    array(
-        "id" => 3,
-        "name" => "Bayam",
-        "stock" => 5,
-        "category" => "sayur daun",
-        "price" => 5000
-    ),
+define("JSON_VEGETABLES", "vegetables.json");
+define("JSON_SALES", "sales.json");
+define("JSON_SALESITEMS", "salesItems.json");
+define("JSON_ORDERS", "orders.json");
+define("JSON_TOTALSALESITEMS", "totalSalesItems.json");
+
+$vegetables = [];
+// $vegetables = array(
+//     array(
+//         "id" => 0,
+//         "name" => "Kubis",
+//         "stock" => 25,
+//         "category" => "sayur daun",
+//         "price" => 10000
+//     ),
+//     array(
+//         "id" => 1,
+//         "name" => "Sawi",
+//         "stock" => 30,
+//         "category" => "sayur putih",
+//         "price" => 8000
+//     ),
+//     array(
+//         "id" => 2,
+//         "name" => "Lobak",
+//         "stock" => 20,
+//         "category" => "umbi",
+//         "price" => 3000
+//     ),
+//     array(
+//         "id" => 3,
+//         "name" => "Bayam",
+//         "stock" => 5,
+//         "category" => "sayur daun",
+//         "price" => 5000
+//     ),
 
 
-);
+// );
 
 
 $sales = [];
@@ -106,4 +113,9 @@ $totalSalesItems = [];
 //     ),
 // );
 
+$vegetables = loadArrayFromJson(JSON_VEGETABLES);
+$sales = loadArrayFromJson(JSON_SALES);
+$salesItems = loadArrayFromJson(JSON_SALESITEMS);
+$orders = loadArrayFromJson(JSON_ORDERS);
+$totalSalesItems = loadArrayFromJson(JSON_TOTALSALESITEMS);
 main();

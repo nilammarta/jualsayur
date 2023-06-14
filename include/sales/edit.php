@@ -60,5 +60,6 @@ function editItemOrder(array $ordersData, array $vegetableData)
     }
     // kembalikan data orders yang baru
     // saveOrdersIntoJson($ordersData);
+    saveArrayIntoJson($ordersData, JSON_ORDERS);
     return $ordersData;
 }

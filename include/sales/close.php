@@ -55,11 +55,11 @@ function closeTransaction(array $vegetablesData, array &$ordersData, array $sale
         }
         // break;
     }
+    saveArrayIntoJson($vegetablesData, JSON_VEGETABLES);
+    saveArrayIntoJson($ordersData, JSON_ORDERS);
+    saveArrayIntoJson($sales, JSON_SALES);
+    saveArrayIntoJson($salesItems, JSON_SALESITEMS);
+    saveArrayIntoJson($totalSalesItems, JSON_TOTALSALESITEMS);
 
-    // saveVegetablesIntoJson($vegetablesData);
-    // saveSalesIntoJson($sales);
-    // saveSalesItemsIntoJson($salesItems);
-    // saveTotalSalesItemsIntoJson($totalSalesItems);
-    // saveOrdersIntoJson($ordersData);
     return [$vegetablesData, $sales, $salesItems, $ordersData, $totalSalesItems];
 }

@@ -57,6 +57,6 @@ function insertItemOrder(array $vegetablesData, array $ordersData): array
             }
         }
     }
-    // saveOrdersIntoJson($ordersData);
+    saveArrayIntoJson($ordersData, JSON_ORDERS);
     return $ordersData;
 }

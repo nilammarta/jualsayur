@@ -46,5 +46,6 @@ function deleteItemOrder(array $ordersData)
         }
     }
     // saveOrdersIntoJson($ordersData);
+    saveArrayIntoJson($ordersData, JSON_ORDERS);
     return $ordersData;
 }

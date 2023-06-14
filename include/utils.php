@@ -118,14 +118,13 @@ function askPrice(): int
         if ($price == 0) {
             echo "Mohon ketik harga jual yang benar. \n";
         } else {
-            // $fixPrice = number_format($price);
             return $price;
         }
     }
 }
 
 /**
- * Membuat function untuk memanggil semua function di atas 
+ * Membuat function untuk menyimpan data dari inputan user ke dalam array vegetables
  */
 function askVegetablesData(int $id, string $vegetableName): array
 {
@@ -147,7 +146,7 @@ function askVegetablesData(int $id, string $vegetableName): array
 }
 
 /**
- * Membuat function untuk menampilkan data sayuran sesuai output
+ * Membuat function untuk menampilkan data sayuran sesuai output yang diminta
  */
 function showVegetables(array $vegetablesData)
 {
@@ -165,7 +164,7 @@ function showVegetables(array $vegetablesData)
 }
 
 /**
- * Membuat function untuk mengecek apakah di dalam data ada nama sayur yang sama  
+ * Membuat function untuk mengecek apakah di dalam data ada nama sayur yang sama jika ada maka akan bernilai true begitu juga sebaliknya
  */
 function isNameExists(array $data, string $name): bool
 {
@@ -178,7 +177,8 @@ function isNameExists(array $data, string $name): bool
 }
 
 /**
- * Membuat function untuk mengecek apakah inputan dari user lebih dari jumalah data dari hasil pencarian atau tidak
+ * Membuat function untuk mengecek apakah inputan ordinal number dari user nilainya lebih besar atau[pun lebih kecil 
+ * dari jumlah data yang tersedia jumlah data 
  */
 function isInputIndex(array $search, int $input): bool
 {
@@ -190,7 +190,9 @@ function isInputIndex(array $search, int $input): bool
 }
 
 /**
- * Membuat function untuk meminta no urut dari data yang ditampilkan yang mana nanti akan dieksekusi 
+ * Membuat function untuk meminta inputan ordinal number dari data yang telah ditampilkan yang nantinya akan dieksekusi
+ * inputan dari user ini akan menjadi index dari data yang dipilih dengan menguranginya dengan 1 setelah mendapatkan indexnya 
+ * yang direturn adalah id dari data ke index
  */
 function askInputNumberIndex(array $search, $sentence): int
 {
@@ -206,7 +208,8 @@ function askInputNumberIndex(array $search, $sentence): int
 }
 
 /**
- * Membuat function untuk mencari data dari array $vegetable dengan menggunakan id
+ * Membuat function untuk mencari data dari array $vegetable dengan menggunakan id apabila idnya sama dengan id yang diinput
+ * akan direturn data vegetablesnya
  */
 function getVegetableById(int $id, array $vegetablesData): array
 {
@@ -219,8 +222,8 @@ function getVegetableById(int $id, array $vegetablesData): array
 }
 
 /**
- * Membuat function untuk melakukan pencarian dari customer name dimana akan di return berupa array 
- * yang isinya hanya id dari hasil pencarian
+ * Membuat function untuk melakukan pencarian berdasarkan customer name dimana jika inputan user ada yang sama dengan customer name 
+ * akan di return berupa array yang isinya hanya id dari data yang sesuai dengan pencarian yang ditampung pada array hasil pencarian 
  */
 function searchSalesByCustomerName(array $salesData, string $input): array
 {
@@ -234,7 +237,7 @@ function searchSalesByCustomerName(array $salesData, string $input): array
 }
 
 /**
- * Membuat function untuk melakukan pencarian jika yang diinput sama dengan nama sayur yang terdapat pada array $vegetable 
+ * Membuat function untuk melakukan pencarian jika yang diinput sama dengan nama sayur yang terdapat pada array $vegetables
  * jika ada, id nya akan ditampung di array temporary kemudian di return 
  */
 function searchSalesByVegetableName(array $salesItem, array $vegetables, $input): array
@@ -277,15 +280,15 @@ function showSale(array $vegetables, array $salesItem, int $salesId)
 }
 
 /**
- * Membuat function untuk menambahkan data ke dalam array $order
+ * Membuat function untuk menambahkan data ke dalam array $order yang data nya diambil dari array $vegetables
+ * array ini sebagai "ketanjang" sebagai tempat untuk menampung pebelian atau order dari user, dan setelah transaksi ditutup
+ * arrray orders ini akan dihapus menjadi array kosong
  */
 function getOrder(array $vegetable, float $quantity, int $id): array
 {
     while (true) {
         $name = $vegetable["name"];
         $price = $vegetable["price"];
-        // $priceTotal = getAmountPrice($price, $quantity);
-        // $amount = 
         $itemId = $vegetable["id"];
         $priceTotal = $price * $quantity;
 
@@ -301,7 +304,7 @@ function getOrder(array $vegetable, float $quantity, int $id): array
 }
 
 /**
- * Membuat function untuk mendapatkan id 
+ * Membuat function untuk mendapatkan id dimana id ini akan ditambahkan secara mandiri tanpa inputan dari user 
  */
 function getId(array $array): int
 {
@@ -315,23 +318,19 @@ function getId(array $array): int
 }
 
 /**
- * Membuat function untuk mendapatkan array $salesItem (penjualan) dan menyimpannya dalam array $salesItem
+ * Membuat function untuk menambahkan data ke dalam array $salesItems dimana data ini diambil dari array orders yang 
+ * menjadi sebuah keranjang dalam proses transaksi
  */
 function buildSalesItemData(array $order, array $salesItems, int $masterId): array
 {
     while (true) {
-        // $array = [];
+
         for ($i = 0; $i < count($order); $i++) {
             $itemId = $order[$i]["itemId"];
             $quantity = $order[$i]["quantity"];
             $price = $order[$i]["amount"];
             $unitPrice = $price / $quantity;
             $id = getId($salesItems);
-            // if (count($salesItems) == 0) {
-            //     $id = 0;
-            // } else {
-            //     $id = $salesItems[count($salesItems) - 1]["id"] + 1;
-            // }
 
             $salesItems[] = array(
                 "id" => $id,
@@ -348,9 +347,9 @@ function buildSalesItemData(array $order, array $salesItems, int $masterId): arr
 }
 
 /**
- * Membuat function untuk menambahkan jumlah harga sehingga mendapatkan total harga yang harus dibayar oleh pembeli
+ * Membuat function untuk menjumlahkan semua harga sehingga mendapatkan total harga yang harus dibayar oleh pembeli
  */
-function getTotalPrice(array $orders)
+function getTotalPrice(array $orders): int
 {
     $total = 0;
     for ($i = 0; $i < count($orders); $i++) {
@@ -360,9 +359,9 @@ function getTotalPrice(array $orders)
 }
 
 /**
- * Membuat function untuk menghitung jumlah semua barang yang dibeli
+ * Membuat function untuk menghitung jumlah kuantitas barang yang dibeli
  */
-function getSumQuantity(array $ordersData)
+function getSumQuantity(array $ordersData): float
 {
     $total = 0;
     for ($i = 0; $i < count($ordersData); $i++) {
@@ -373,7 +372,8 @@ function getSumQuantity(array $ordersData)
 
 
 /**
- * Membuat function untuk menambahkan data pada data $sales
+ * Membuat function untuk menambahkan data pada data $sales dimana data ini diambil dari array ordersData dan ditambah 
+ * dengan inputan nama oleh user
  */
 function buildSalesData(array $ordersData, array $salesData, string $name): array
 {
@@ -429,8 +429,7 @@ function editVegetableStock(array $vegetables, array $orders): array
 }
 
 /**
- * Membuat function untuk mengecek apakah ada "itemId" yang sama dengan "itemid" yang ada di array orders dan array totalSalesItem
- * jika ada yang sama total amount akan ditambahkan dengan total amount sebelumnya
+ * Membuat function untuk mendapatkan jumlah 
  */
 function getTotalAmount(array $salesItem, array $orderData, int $amount): int
 {
@@ -546,7 +545,7 @@ function buildTotalSalesItems(array $orderData, array $totalSalesItems, int $id)
 /**
  * Membuat function untuk mengsorting data $totalSalesItems untuk mendapatkan data sayur terfavorit berdsarkan quantitas dan amount
  */
-function sortDataByQuantity(array $totalSalesItems)
+function sortDataByQuantity(array $totalSalesItems): array
 {
     for ($i = 1; $i < count($totalSalesItems); $i++) {
         $totalQuantity = $totalSalesItems[$i]["totalQuantity"];
@@ -564,7 +563,7 @@ function sortDataByQuantity(array $totalSalesItems)
 /**
  * Membuat function untuk mengsorting data $totalSalesItems untuk mendapatkan data sayur terfavorit berdasarkan total Amount
  */
-function sortDataByAmount(array $totalSalesItems)
+function sortDataByAmount(array $totalSalesItems): array
 {
     for ($i = 1; $i < count($totalSalesItems); $i++) {
         $totalAmount = $totalSalesItems[$i]["totalAmount"];
@@ -584,52 +583,10 @@ function sortDataByAmount(array $totalSalesItems)
  * ini akan di simpan di dalam sebuah file dengan nama "vegetables.json" sehingga pada saat keluar dari program
  * data akan tetap tersimpan di dalam file   
  */
-function saveVegetablesIntoJson(array $vegetables)
+function saveArrayIntoJson(array $array, string $fileName)
 {
-    $json = json_encode($vegetables);
-    $jsonVegetables = file_put_contents("vegetables.json", $json);
-}
-
-/**
- * Membuat function untuk menyimpan data dari inputan user kedalam file menggunakan json, dimana inputan dari 
- * user ini akan di simpan di dalam sebuah file dengan nama "sales.json" sehingga pada saat keluar dari program
- * data akan tetap tersimpan di dalam file 
- */
-function saveSalesIntoJson(array $sales)
-{
-    $json = json_encode($sales);
-    $jsonSales = file_put_contents("sales.json", $json);
-}
-
-/**
- * Membuat function untuk menyimpan data dari inputan user kedalam file menggunakan json, dimana inputan dari 
- * user ini akan di simpan di dalam sebuah file dengan nama "salesItem.json" sehingga pada saat keluar dari program
- * data akan tetap tersimpan di dalam file 
- */
-function saveSalesItemsIntoJson(array $salesItems)
-{
-    $json = json_encode($salesItems);
-    $jsonSalesItems = file_put_contents("salesItems.json", $json);
-}
-/**
- * Membuat function untuk menyimpan data dari inputan user kedalam file menggunakan json, dimana inputan dari 
- * user ini akan di simpan di dalam sebuah file dengan nama "orders.json" sehingga pada saat keluar dari program
- * data akan tetap tersimpan di dalam file   
- */
-function saveOrdersIntoJson(array $orders)
-{
-    $json = json_encode($orders);
-    $jsonOrders = file_put_contents("orders.json", $json);
-}
-/**
- * Membuat function untuk menyimpan data dari inputan user kedalam file menggunakan json, dimana inputan dari 
- * user ini akan di simpan di dalam sebuah file dengan nama "totalSalesItems.json" sehingga pada saat keluar dari program
- * data akan tetap tersimpan di dalam file   
- */
-function saveTotalSalesItemsIntoJson(array $totalSalesItems)
-{
-    $json = json_encode($totalSalesItems);
-    $jsonTotalSalesItems = file_put_contents("totalSalesItems.json", $json);
+    $json = json_encode($array);
+    $array = file_put_contents($fileName, $json);
 }
 
 /**
@@ -637,13 +594,11 @@ function saveTotalSalesItemsIntoJson(array $totalSalesItems)
  * ini berguna pada saat ingin memasukkan data baru dan diletakkan di file index sebelum menu tampil 
  * dan juga untuk menampilkan data yang sudah diinput sebelumnya 
  */
-function loadVegetablesFromJson()
+function loadArrayFromJson(string $fileName)
 {
-    // membuat sebuah variabel untuk menampung nama file yang sudah dibuat
-    $file = "vegetables.json";
     // melakukan pengecekan terhadap file, apakah didalam file terdapat data atau tidak, jika ada maka lakukan
-    if (file_exists($file)) {
-        $vegetables = file_get_contents($file);
+    if (file_exists($fileName)) {
+        $vegetables = file_get_contents($fileName);
         // melakukan decode untuk mengubah bentuk dari json menjadi bentuk array yang sesuai dengan php (array semula)
         $json = json_decode($vegetables, true);
         // kembalikan nilai dengan bentuk array semula atau sesuai dengan php
@@ -654,54 +609,13 @@ function loadVegetablesFromJson()
     }
 }
 
-function loadSalesFromJson()
+
+
+function clearScreen()
 {
-    $file = "sales.json";
-
-    if (file_exists($file)) {
-        $sales = file_get_contents($file);
-        $json = json_decode($sales, true);
-        return $json;
+    if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+        popen('cls', 'w');
     } else {
-        return [];
-    }
-}
-
-function loadSalesItemsFromJson()
-{
-    $file = "salesItems.json";
-
-    if (file_exists($file)) {
-        $salesItems = file_get_contents($file);
-        $json = json_decode($salesItems, true);
-        return $json;
-    } else {
-        return [];
-    }
-}
-
-function loadOrdersFromJson()
-{
-    $file = "orders.json";
-
-    if (file_exists($file)) {
-        $orders = file_get_contents($file);
-        $json = json_decode($orders, true);
-        return $json;
-    } else {
-        return [];
-    }
-}
-
-function loadTotalSalesItemsFromJson()
-{
-    $file = "totalSalesItems.json";
-
-    if (file_exists($file)) {
-        $totalSalesItems = file_get_contents($file);
-        $json = json_decode($totalSalesItems, true);
-        return $json;
-    } else {
-        return [];
+        system('clear');
     }
 }

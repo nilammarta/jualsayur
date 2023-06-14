@@ -20,7 +20,6 @@ require_once __DIR__ . "/report/favorite.php";
  */
 function vegetablesMenu(array &$vegetables, array $salesItems)
 {
-    // system('clear');
 
     // global $vegetables;
     $spacer = "\n==========\n";
@@ -64,7 +63,7 @@ function vegetablesMenu(array &$vegetables, array $salesItems)
  */
 function transaction()
 {
-    // system('clear');
+    clearScreen();
 
     global $vegetables;
     global $sales;
@@ -127,8 +126,8 @@ function transaction()
  */
 function salesMenu(array $vegetables, array &$sales, array &$salesItems)
 {
-    // system('clear');
 
+    clearScreen();
     $spacer = "\n==========\n";
     while (true) {
         echo "PENJUALAN: \n";
@@ -160,8 +159,8 @@ function salesMenu(array $vegetables, array &$sales, array &$salesItems)
  */
 function reportTransaction(array $sales, array $totalSalesItems, array $vegetables)
 {
-    // system('clear');
 
+    clearScreen();
     $spacer = "\n==========\n";
     while (true) {
         echo "LAPORAN \n";
@@ -192,7 +191,7 @@ function reportTransaction(array $sales, array $totalSalesItems, array $vegetabl
  */
 function mainMenu()
 {
-    // system('cls');
+    clearScreen();
     echo "JUAL SAYUR \n";
     echo "  1. Sayuran \n";
     echo "  2. Penjualan \n";

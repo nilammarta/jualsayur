@@ -76,6 +76,7 @@ function deleteVegetable(array $vegetablesData, array $salesItem)
     }
 
     // saveVegetablesIntoJson($vegetablesData);
+    saveArrayIntoJson($vegetablesData, JSON_VEGETABLES);
     return $vegetablesData;
     // }
 }
